@@ -2,6 +2,6 @@
 
 There is something wrong when update text.
 
-## Screesnhots
+## Screenshots
 
 <img src="Extras/screenshots/ss1.jpg" width="280" />
