@@ -4,6 +4,7 @@
     <component id="vpqh0" name="Dialog.xml" path="/" exported="true"/>
     <component id="f4ob1" name="Button.xml" path="/"/>
     <font id="f4ob2" name="Pulang.ttf" path="/fonts/" renderMode="" samplePointSize="16"/>
+    <font id="ojjb3" name="Marker Felt.ttf" path="/fonts/" renderMode="" samplePointSize="16"/>
   </resources>
   <publish name="" path="/Users/paulo/Developer/workspaces/cpp/fairygui-bug/Content/ui/fairy-gui" packageCount="2"/>
 </packageDescription>

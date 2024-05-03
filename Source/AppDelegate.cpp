@@ -34,7 +34,17 @@
 
 USING_NS_AX;
 
+#if defined(AX_TARGET_OS_TVOS)
+static ax::Size designResolutionSize = ax::Size(2048, 1536);
+static ax::Size smallResolutionSize  = ax::Size(480, 320);
+static ax::Size mediumResolutionSize = ax::Size(1024, 768);
+static ax::Size largeResolutionSize  = ax::Size(2048, 1536);
+#else
 static ax::Size designResolutionSize = ax::Size(720, 1280);
+static ax::Size smallResolutionSize  = ax::Size(320, 480);
+static ax::Size mediumResolutionSize = ax::Size(768, 1024);
+static ax::Size largeResolutionSize  = ax::Size(1536, 2048);
+#endif
 
 AppDelegate::AppDelegate() {}
 
@@ -71,7 +81,24 @@ bool AppDelegate::applicationDidFinishLaunching()
     director->setAnimationInterval(1.0f / 60);
 
     // set the design resolution
+    auto frameSize = glView->getFrameSize();
     glView->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);
+
+    // if the frame's height is larger than the height of medium size.
+    if (frameSize.height > mediumResolutionSize.height)
+    {
+        director->setContentScaleFactor(MIN(largeResolutionSize.height / designResolutionSize.height, largeResolutionSize.width / designResolutionSize.width));
+    }
+    // if the frame's height is larger than the height of small size.
+    else if (frameSize.height > smallResolutionSize.height)
+    {
+        director->setContentScaleFactor(MIN(mediumResolutionSize.height / designResolutionSize.height, mediumResolutionSize.width / designResolutionSize.width));
+    }
+    // if the frame's height is smaller than the height of medium size.
+    else
+    {
+        director->setContentScaleFactor(MIN(smallResolutionSize.height / designResolutionSize.height, smallResolutionSize.width / designResolutionSize.width));
+    }
 
     // create a scene, an autorelease object
     auto scene = utils::createInstance<MainScene>();

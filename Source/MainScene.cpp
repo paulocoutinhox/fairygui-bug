@@ -15,7 +15,7 @@ bool MainScene::init()
     auto safeOrigin = safeArea.origin;
 
     // native label
-    auto label = Label::createWithTTF("Hello World", "fonts/Pulang.ttf", 24);
+    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
 
     {
         label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - label->getContentSize().height));
@@ -24,6 +24,7 @@ bool MainScene::init()
 
     // fairy gui
     fairygui::UIConfig::registerFont("Pulang", "fonts/Pulang.ttf");
+    fairygui::UIConfig::registerFont("MF", "fonts/Marker Felt.ttf");
 
     groot = fairygui::GRoot::create(this);
     groot->retain();
