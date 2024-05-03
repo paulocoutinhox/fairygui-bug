@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="720,1280" bgColorEnabled="true" bgColor="#663300">
+  <displayList>
+    <text id="n0_f4ob" name="lbMessage1" xy="196,406" size="328,42" fontSize="30" color="#ffffff" text="ORIGINAL TEST 1 : ABC">
+      <relation target="" sidePair="center-center%"/>
+    </text>
+    <component id="n1_f4ob" name="btUpdate" src="f4ob1" fileName="Button.xml" xy="222,624" size="275,74">
+      <relation target="" sidePair="center-center%"/>
+      <Button title="UPDATE" titleFontSize="30"/>
+    </component>
+    <text id="n2_f4ob" name="lbMessage2" xy="215,503" size="288,42" font="ui://v1o4uipmf4ob2" fontSize="30" color="#ffffff" align="center" vAlign="middle" text="ORIGINAL TEST 2: ABC">
+      <relation target="" sidePair="center-center%"/>
+    </text>
+  </displayList>
+</component>
