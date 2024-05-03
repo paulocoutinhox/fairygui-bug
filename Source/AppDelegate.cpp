@@ -68,26 +68,30 @@ void AppDelegate::setDesignResolution()
     auto glView = director->getGLView();
     auto frameSize = glView->getFrameSize();
     bool isPortrait = frameSize.height > frameSize.width;
+    
+    ResolutionPolicy policy = ResolutionPolicy::FIXED_WIDTH;
+    
+    glView->setDesignResolutionSize(frameSize.width, frameSize.height, policy);
 
     if (AX_TARGET_PLATFORM == AX_PLATFORM_TVOS)
     {
         // tv device
-        glView->setDesignResolutionSize(tvResolution.width, tvResolution.height, ResolutionPolicy::SHOW_ALL);
+        glView->setDesignResolutionSize(tvResolution.width, tvResolution.height, policy);
     }
     else if (AX_TARGET_PLATFORM == AX_PLATFORM_WIN32 || AX_TARGET_PLATFORM == AX_PLATFORM_MAC || AX_TARGET_PLATFORM == AX_PLATFORM_LINUX)
     {
         // desktop platforms
-        glView->setDesignResolutionSize(desktopResolutionSize.width, desktopResolutionSize.height, ResolutionPolicy::SHOW_ALL);
+        glView->setDesignResolutionSize(desktopResolutionSize.width, desktopResolutionSize.height, policy);
     }
     else if (isPortrait)
     {
         // mobile device in portrait mode
-        glView->setDesignResolutionSize(mobilePortraitResolution.width, mobilePortraitResolution.height, ResolutionPolicy::SHOW_ALL);
+        glView->setDesignResolutionSize(mobilePortraitResolution.width, mobilePortraitResolution.height, policy);
     }
     else
     {
         // mobile device in landscape mode
-        glView->setDesignResolutionSize(mobileLandscapeResolution.width, mobileLandscapeResolution.height, ResolutionPolicy::SHOW_ALL);
+        glView->setDesignResolutionSize(mobileLandscapeResolution.width, mobileLandscapeResolution.height, policy);
     }
 
     // adjust the scaleFactor to maximize visual quality
