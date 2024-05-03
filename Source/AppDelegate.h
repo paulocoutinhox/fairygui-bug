@@ -35,6 +35,8 @@ Private inheritance here hides part of interface from Director.
 */
 class AppDelegate : private ax::Application
 {
+private:
+    void setDesignResolution();
 public:
     AppDelegate();
     ~AppDelegate() override;
