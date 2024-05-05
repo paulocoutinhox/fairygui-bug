@@ -67,41 +67,35 @@ void AppDelegate::setDesignResolution()
     auto director = Director::getInstance();
     auto glView = director->getGLView();
     auto frameSize = glView->getFrameSize();
+    auto winSize = director->getWinSize();
     bool isPortrait = frameSize.height > frameSize.width;
     
-    // calculate the aspect ratio of the design layout and the screen
-    float designAspectRatio = 720.0f / 1280.0f;  // aspect ratio of the design layout (720x1280)
-    float screenAspectRatio = frameSize.width / frameSize.height;
+    ResolutionPolicy policy = ResolutionPolicy::FIXED_HEIGHT;
     
-    // set the policy based on the comparison of aspect ratios
-    ResolutionPolicy policy;
-    if (screenAspectRatio >= designAspectRatio) {
-        // the screen is wider than the design needs, so fix the height to fit all content vertically
-        policy = ResolutionPolicy::FIXED_HEIGHT;
-    } else {
-        // the screen is narrower than the design needs, so fix the width to fit all content horizontally
-        policy = ResolutionPolicy::FIXED_WIDTH;
-    }
-    
-    // adjust the design resolution based on the platform and orientation
+    glView->setDesignResolutionSize(frameSize.width, frameSize.height, policy);
+
     if (AX_TARGET_PLATFORM == AX_PLATFORM_TVOS)
     {
+        // tv device
         glView->setDesignResolutionSize(tvResolution.width, tvResolution.height, policy);
     }
     else if (AX_TARGET_PLATFORM == AX_PLATFORM_WIN32 || AX_TARGET_PLATFORM == AX_PLATFORM_MAC || AX_TARGET_PLATFORM == AX_PLATFORM_LINUX)
     {
+        // desktop platforms
         glView->setDesignResolutionSize(desktopResolutionSize.width, desktopResolutionSize.height, policy);
     }
     else if (isPortrait)
     {
+        // mobile device in portrait mode
         glView->setDesignResolutionSize(mobilePortraitResolution.width, mobilePortraitResolution.height, policy);
     }
     else
     {
+        // mobile device in landscape mode
         glView->setDesignResolutionSize(mobileLandscapeResolution.width, mobileLandscapeResolution.height, policy);
     }
 
     // adjust the scaleFactor to maximize visual quality
-    float scaleFactor = (policy == ResolutionPolicy::FIXED_HEIGHT) ? frameSize.height / 1280.0f : frameSize.width / 720.0f;
+    float scaleFactor = MIN(frameSize.width / mobileLandscapeResolution.width, frameSize.height / mobileLandscapeResolution.height);
     director->setContentScaleFactor(scaleFactor);
 }
