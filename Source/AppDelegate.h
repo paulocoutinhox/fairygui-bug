@@ -37,6 +37,7 @@ class AppDelegate : private ax::Application
 {
 private:
     void setDesignResolution();
+
 public:
     AppDelegate();
     ~AppDelegate() override;

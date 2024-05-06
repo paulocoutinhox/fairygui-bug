@@ -11,8 +11,9 @@ public:
     CREATE_FUNC(DemoDialogWindow);
     void showMessage(std::string message);
     std::function<void(fairygui::EventContext*)> btUpdateClickCallback;
+
 protected:
     virtual void onInit() override;
     virtual void onShown() override;
-    void onBtUpdateClick(fairygui::EventContext * context);
+    void onBtUpdateClick(fairygui::EventContext* context);
 };

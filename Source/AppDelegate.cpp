@@ -9,9 +9,9 @@
 
 USING_NS_AX;
 
-static const ax::Size desktopResolutionSize = ax::Size(1280, 720);
-static const ax::Size tvResolution = ax::Size(1920, 1080);
-static const ax::Size mobilePortraitResolution = ax::Size(720, 1280);
+static const ax::Size desktopResolutionSize     = ax::Size(1280, 720);
+static const ax::Size tvResolution              = ax::Size(1920, 1080);
+static const ax::Size mobilePortraitResolution  = ax::Size(720, 1280);
 static const ax::Size mobileLandscapeResolution = ax::Size(1280, 720);
 
 AppDelegate::AppDelegate() {}
@@ -27,11 +27,13 @@ void AppDelegate::initGLContextAttrs()
 bool AppDelegate::applicationDidFinishLaunching()
 {
     auto director = Director::getInstance();
-    auto glView = director->getGLView();
+    auto glView   = director->getGLView();
     if (!glView)
     {
-#if (AX_TARGET_PLATFORM == AX_PLATFORM_WIN32) || (AX_TARGET_PLATFORM == AX_PLATFORM_MAC) || (AX_TARGET_PLATFORM == AX_PLATFORM_LINUX)
-        glView = GLViewImpl::createWithRect("fairygui-bug", ax::Rect(0, 0, desktopResolutionSize.width, desktopResolutionSize.height));
+#if (AX_TARGET_PLATFORM == AX_PLATFORM_WIN32) || (AX_TARGET_PLATFORM == AX_PLATFORM_MAC) || \
+    (AX_TARGET_PLATFORM == AX_PLATFORM_LINUX)
+        glView = GLViewImpl::createWithRect("fairygui-bug",
+                                            ax::Rect(0, 0, desktopResolutionSize.width, desktopResolutionSize.height));
 #else
         glView = GLViewImpl::create("fairygui-bug");
 #endif
@@ -64,38 +66,32 @@ void AppDelegate::applicationWillEnterForeground()
 
 void AppDelegate::setDesignResolution()
 {
-    auto director = Director::getInstance();
-    auto glView = director->getGLView();
+    auto director  = Director::getInstance();
+    auto glView    = director->getGLView();
     auto frameSize = glView->getFrameSize();
-    auto winSize = director->getWinSize();
-    bool isPortrait = frameSize.height > frameSize.width;
-    
-    ResolutionPolicy policy = ResolutionPolicy::FIXED_HEIGHT;
-    
-    glView->setDesignResolutionSize(frameSize.width, frameSize.height, policy);
 
-    if (AX_TARGET_PLATFORM == AX_PLATFORM_TVOS)
+    float designWidth       = 720;
+    float designHeight      = 1280;
+    float targetAspectRatio = designWidth / designHeight;
+
+    float screenAspectRatio = frameSize.width / frameSize.height;
+
+    float newDesignWidth, newDesignHeight;
+
+    if (screenAspectRatio > targetAspectRatio)
     {
-        // tv device
-        glView->setDesignResolutionSize(tvResolution.width, tvResolution.height, policy);
-    }
-    else if (AX_TARGET_PLATFORM == AX_PLATFORM_WIN32 || AX_TARGET_PLATFORM == AX_PLATFORM_MAC || AX_TARGET_PLATFORM == AX_PLATFORM_LINUX)
-    {
-        // desktop platforms
-        glView->setDesignResolutionSize(desktopResolutionSize.width, desktopResolutionSize.height, policy);
-    }
-    else if (isPortrait)
-    {
-        // mobile device in portrait mode
-        glView->setDesignResolutionSize(mobilePortraitResolution.width, mobilePortraitResolution.height, policy);
+        newDesignHeight = designHeight;
+        newDesignWidth  = designHeight * screenAspectRatio;
     }
     else
     {
-        // mobile device in landscape mode
-        glView->setDesignResolutionSize(mobileLandscapeResolution.width, mobileLandscapeResolution.height, policy);
+        newDesignWidth  = designWidth;
+        newDesignHeight = designWidth / screenAspectRatio;
     }
 
-    // adjust the scaleFactor to maximize visual quality
-    float scaleFactor = MIN(frameSize.width / mobileLandscapeResolution.width, frameSize.height / mobileLandscapeResolution.height);
+    ResolutionPolicy policy = ResolutionPolicy::EXACT_FIT;
+    glView->setDesignResolutionSize(newDesignWidth, newDesignHeight, policy);
+
+    float scaleFactor = std::min(frameSize.width / newDesignWidth, frameSize.height / newDesignHeight);
     director->setContentScaleFactor(scaleFactor);
 }

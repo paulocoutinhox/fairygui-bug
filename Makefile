@@ -23,7 +23,6 @@ help:
 
 format:
 	find -E Source/ -regex '.*\.(cpp|hpp|cc|cxx|c|h)' -exec clang-format -style=file -i {} \;
-	find -E Platform/ -regex '.*\.(cpp|hpp|cc|cxx|c|h)' -exec clang-format -style=file -i {} \;
 
 clean:
 	rm -rf build_*

@@ -10,9 +10,9 @@ bool MainScene::init()
     }
 
     auto visibleSize = _director->getVisibleSize();
-    auto origin = _director->getVisibleOrigin();
-    auto safeArea = _director->getSafeAreaRect();
-    auto safeOrigin = safeArea.origin;
+    auto origin      = _director->getVisibleOrigin();
+    auto safeArea    = _director->getSafeAreaRect();
+    auto safeOrigin  = safeArea.origin;
 
     // background
     auto background = LayerColor::create(Color4B(64, 31, 7, 255));
@@ -27,7 +27,8 @@ bool MainScene::init()
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
 
     {
-        label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - (AX_CONTENT_SCALE_FACTOR() * 200)));
+        label->setPosition(
+            Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - (AX_CONTENT_SCALE_FACTOR() * 200)));
         this->addChild(label, 1);
     }
 
@@ -45,7 +46,7 @@ bool MainScene::init()
     demoDialog->initWindow();
     demoDialog->show();
 
-    demoDialog->btUpdateClickCallback = [=](fairygui::EventContext * context) {
+    demoDialog->btUpdateClickCallback = [=](fairygui::EventContext* context) {
         demoDialog->showMessage("UPDATED MESSAGE: XYZ");
         label->setString("UPDATED MESSAGE: XYZ");
     };

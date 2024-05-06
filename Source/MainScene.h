@@ -9,8 +9,9 @@ class MainScene : public ax::Scene
 private:
     DemoDialogWindow* demoDialog;
     fairygui::GRoot* groot;
+
 public:
     bool init() override;
     void update(float delta) override;
-    void menuCloseCallback(Ref* sender);
+    void menuCloseCallback(ax::Ref* sender);
 };
